@@ -39,6 +39,25 @@ class GameNode:
 	def addChild(self, childNode):
 		self.children.append(childNode)
 
+	def resumen(self):
+		print("""	
+					Name: {}
+					Value: {}
+					Parent: {}
+					Children: {}
+
+			""".format(self.Name,self.value,self.parent,self.getHijos()))
+		
+
+	def getHijos(self):
+		hijos=[]
+		for i in self.children:
+			hijos.append(i.Name)
+		return hijos
+
+
+		
+
 class GameTree:
 	def __init__(self):
 		self.root = None
@@ -75,6 +94,26 @@ class GameTree:
 		# return from entire method if base case and recursive case both done running
 		return
 
+
+	def armarSubArbol(self,value,parent,lookahead):
+		hoja=GameNode(str(value),value)
+		hoja.parent=parent
+
+		parent.addChild(hoja)
+
+		if(not (lookahead<1)):
+			self.armarSubArbol(value+1,hoja,lookahead-1)
+			self.armarSubArbol(value+2,hoja,lookahead-1)
+			return
+		return
+
+	def armarArbol(self,rootValue,lookahead):
+		self.root=GameNode(str(rootValue))
+
+		self.armarSubArbol(rootValue+1,self.root,lookahead-1)
+		self.armarSubArbol(rootValue+2,self.root,lookahead-1)
+
+
 ##########################
 #### MAIN ENTRY POINT ####
 ##########################
@@ -84,7 +123,13 @@ def main():
 	print ("hello world! " + filename)
 	data_list = parse_data_as_list(filename)
 	data_tree = GameTree()
-	data_tree.build_tree(data_list)
+	
+	#data_tree.build_tree(data_list)
+
+	#rootValue,lookahead
+	data_tree.armarArbol(1,2)
+
+	data_tree.root.resumen()
 
 if __name__ == "__main__":
 	main()
