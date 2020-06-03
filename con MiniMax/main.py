@@ -9,7 +9,8 @@ from alphaBeta import *
 
 data_tree = GameTree()
 #data_tree.build_tree(data_list)
-data_tree.armarArbol(1,3)
+#data_tree.armarArbol(1,3)
+data_tree.armarArbol([99,0,0,0,0,0],[99,99,0,0, 99,0],3)
 
 mini=MiniMax(data_tree)
 print("MiniMax")

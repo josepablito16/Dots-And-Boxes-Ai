@@ -1,7 +1,7 @@
 ##########################
 ###### MINI-MAX A-B ######
 ##########################
-
+import ast
 class AlphaBeta:
 	# print utility value of root node (assuming it is max)
 	# print names of all nodes visited during search
@@ -25,12 +25,12 @@ class AlphaBeta:
 				best_val = value
 				best_name=name
 				best_state = state
-		print ("AlphaBeta:  Utility Value of Root Node: = " + str(best_val)+" with name "+best_name)
-		print ("AlphaBeta:  Best State is: " + best_state.Name)
-		return best_state
+		#print ("AlphaBeta:  Utility Value of Root Node: = " + str(best_val)+" with name "+best_name)
+		#print ("AlphaBeta:  Best State is: " + best_state.Name)
+		return ast.literal_eval(best_name)
 
 	def max_value(self, node, alpha, beta):
-		print ("AlphaBeta-->MAX: Visited Node :: " + node.Name)
+		#print ("AlphaBeta-->MAX: Visited Node :: " + node.Name)
 		if self.isTerminal(node):
 			return self.getUtility(node),node.Name
 		infinity = float('inf')
@@ -54,7 +54,7 @@ class AlphaBeta:
 		return value,name
 
 	def min_value(self, node, alpha, beta):
-		print ("AlphaBeta-->MIN: Visited Node :: " + node.Name)
+		#print ("AlphaBeta-->MIN: Visited Node :: " + node.Name)
 		if self.isTerminal(node):
 			return self.getUtility(node),node.Name
 		infinity = float('inf')

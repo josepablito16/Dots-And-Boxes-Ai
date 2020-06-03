@@ -1,13 +1,9 @@
 import random
 
-h=[0, 0,0, 0, 0, 99]
+N = 6 #cantidad de puntos en una linea
 
-v=[0,99, 0,0, 99, 99]
-
-N = 3 #cantidad de puntos en una linea
-
-YO=1 #Jugadas positivas
-OPONENTE=2 #Jugadas negativas
+#YO=1 #Jugadas positivas
+#OPONENTE=2 #Jugadas negativas
 
 EMPTY=99
 FILLED=0
@@ -19,17 +15,9 @@ def getPosicionesLibres(lista):
 			posicionesLibres.append(i)
 	return posicionesLibres
 		
-'''
-def simularMiTiro():
-	for i in posicionesLibresH:
-		hTemp=h.copy()
-		hTemp[i]=0
-		print(hTemp)
 
-print(h)
-getPosicionesLibreH()
-simularMiTiro()
-'''
+
+
 
 def buscarTiroCuadrado(tableroH,tableroV):
 	posicionesLibresH=getPosicionesLibres(tableroH)
@@ -43,7 +31,7 @@ def buscarTiroCuadrado(tableroH,tableroV):
 	for pos in posicionesLibresV:
 		posiblesTiros.append([1,pos])
 
-	print(posiblesTiros)
+	#print(posiblesTiros)
 	
 
 	for turno in posiblesTiros:
@@ -87,7 +75,7 @@ def buscarTiroCuadrado(tableroH,tableroV):
 
 		if(punteoAntesTurno<punteoTurno):
 
-			print("Cuadrado Interno")
+			#print("Cuadrado Interno")
 
 			return turno
 
@@ -100,10 +88,11 @@ def buscarTiroCuadrado(tableroH,tableroV):
 				#Vertical
 				tableroV[turno[1]]=EMPTY
 
+
+	if(len(posiblesTiros)>0):
 		return random.choice(posiblesTiros)
-
-
-
+	else:
+		return [0,0]
 
 
 def jugarSimulado(tableroH,tableroV,turno,jugador):
@@ -113,9 +102,10 @@ def jugarSimulado(tableroH,tableroV,turno,jugador):
 	while repetirTurno:
 
 		if(contador!=0):
-			print("Se podria simular otro tiro")
+			#print("Se podria simular otro tiro")
 			turno=buscarTiroCuadrado(tableroH.copy(),tableroV.copy())
-			print(turno)
+			#print("Turno ganador: ")
+			#print(turno)
 			
 		else:
 			contador+=1
@@ -158,10 +148,11 @@ def jugarSimulado(tableroH,tableroV,turno,jugador):
 				acumulador = 0
 
 		if(punteoAntesTurno<punteoTurno):
-			print()
-			print("Cuadrado")
-			print([tableroH,tableroV])
-			print()
+			#print()
+			#print("Jugada con cuadrado")
+			#print("Tablero:")
+			#print([tableroH,tableroV])
+			#print()
 			repetirTurno=True
 
 			if(jugador==1):
@@ -207,9 +198,71 @@ def jugarSimulado(tableroH,tableroV,turno,jugador):
 		else:
 			repetirTurno=False
 
-
-
 	return tableroH,tableroV
 
+def getHeuristica(tableroH,tableroV,jugador):
+	punteo=0
+	if(jugador==1):
+		#positivos
+		#print("Es positivos")
+		for i in tableroH:
+			if(i!=EMPTY and i>0):
+				punteo+=i
 
-print(jugarSimulado(h.copy(),v.copy(),[1,1],YO))
+		for i in tableroV:
+			if(i!=EMPTY and i>0):
+				punteo+=i
+
+		return punteo
+
+	else:
+		#Negativos
+		#print("Es Negativo")
+		for i in tableroH:
+			if(i!=EMPTY and i<0):
+				punteo+=i*-1
+
+		for i in tableroV:
+			if(i!=EMPTY and i<0):
+				punteo+=i*-1
+				
+		return punteo
+
+
+def simularMiTiro(tableroH,tableroV):
+
+
+	posicionesLibresH=getPosicionesLibres(tableroH)
+	posicionesLibresV=getPosicionesLibres(tableroV)
+
+	posiblesTiros=[]
+
+	for pos in posicionesLibresH:
+		posiblesTiros.append([0,pos])
+
+	for pos in posicionesLibresV:
+		posiblesTiros.append([1,pos])
+
+	
+	for tiro in posiblesTiros:
+		#print()
+		#print("TIRO "+str(tiro))
+		tableroHNuevo,tableroVNuevo=jugarSimulado(tableroH.copy(),tableroV.copy(),tiro,YO)
+		#print([tableroHNuevo,tableroVNuevo])
+
+		#print("punteo")
+		#print(getHeuristica(tableroHNuevo.copy(),tableroVNuevo.copy(),YO))
+
+	
+
+############
+#### MAIN ##
+############
+'''
+h=[99, 0,0,0,0,0]
+v=[99,99, 0,0, 99,0]
+
+print()
+print("SIMULAR MI TIRO")
+simularMiTiro(h.copy(),v.copy())
+'''
